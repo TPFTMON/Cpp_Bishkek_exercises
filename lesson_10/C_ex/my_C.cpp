@@ -1,27 +1,24 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 
-// int main()
-// {
-//     std::string str;
-//     std::getline(std::cin, str);
+int main(){
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream iss(line);
+    std::string word;
+    std::string max_word;
+    int max_len = 0;
 
-//     int biggest = 0, count = 0, i = 0, index = 0;
-//     while (i < str.size()){
-//         for (int j = 0; str[j] && str[j] == ' '; j++){
-//         }
-//         count = 0;
-//         for (int j = 0; str[j] && str[j] != ' '; j++){
-//             count++;
-//         }
-//         if (count > biggest){
-//             biggest = count;
-//         }
+    while (iss >> word){
+        int len = word.length();
+        if (len > max_len) {
+            max_len = len;
+            max_word = word;
+        }
+    }
+    std::cout << max_word << "\n";
+    std::cout << max_len << std::endl;
 
-//         i += count;
-//     }
-
-
-//     return (0);
-// }
-
+    return (0);
+}
