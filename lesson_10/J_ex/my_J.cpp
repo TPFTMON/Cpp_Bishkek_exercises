@@ -61,7 +61,6 @@ int	main(void)
 {
 	char	c;
 	int		num;
-	int		num;
 
 	std::string s;
 	std::getline(std::cin, s);

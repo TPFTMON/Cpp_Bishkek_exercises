@@ -1,119 +1,233 @@
 #include <iostream>
 #include <queue>
+using namespace std;
 
-void	quick_sort(long long array[], int l, int r)
-{
-	long long	pivot;
-	int			i, j;
-	long long	temp;
-
-	if (l >= r)
-		return ;
-	pivot = array[(l + r) / 2];
-	i = l, j = r;
-	while (i <= j)
-	{
-		while (array[i] < pivot)
-			i++;
-		while (array[j] > pivot)
-			j--;
-		if (i <= j)
-		{
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-			i++;
-			j--;
-		}
-	}
-	quick_sort(array, l, j);
-	quick_sort(array, i, r);
+void qs(long long a[], int l, int r){
+    if (l>=r){
+        return;
+    }
+    long long p=a[(l+r)/2];
+    int i=l,j=r;
+    while (i<=j){
+        while (a[i]<p){
+            i++;
+        }
+        while (a[j]>p){
+            j--;
+        }
+        if (i<=j){
+            swap (a[i],a[j]);
+            i++;
+            j--;
+        }
+    }
+    qs(a,l,j);
+    qs(a,i,r);
 }
 
-int	main(void)
-{
-	int			t;
-	long long	answers[10001];
-	int n;
-	long long k;
-	long long a[200001];
-	long long	cur_h;
-	int			visible;
-	int			i;
-	long long	h;
-	int			freq;
-	long long	gap;
-	long long	eh;
-	long long	cost;
-	long long	eh;
-	long long	cost;
-
-	std::cin >> t;
-	for (int tt = 0; tt < t; tt++)
-	{
-		std::cin >> n >> k;
-		for (int i = 0; i < n; i++)
-		{
-			std::cin >> a[i];
-		}
-		quick_sort(a, 0, n - 1);
-		cur_h = a[0] - 1;
-		visible = 0;
-		std::priority_queue<long long> extras;
-		i = 0;
-		while (i < n)
-		{
-			h = a[i];
-			freq = 0;
-			while (i < n && a[i] == h)
-			{
-				freq++;
-				i++;
-			}
-			gap = h - cur_h - 1;
-			while (gap > 0 && !extras.empty())
-			{
-				eh = extras.top();
-				extras.pop();
-				cost = cur_h + 1 - eh;
-				if (cost > k)
-				{
-					extras.push(eh);
-					break ;
-				}
-				k -= cost;
-				visible++;
-				gap--;
-				cur_h += 1;
-			}
-			visible += 1;
-			for (int j = 1; j < freq; j++)
-			{
-				extras.push(h);
-			}
-			cur_h = h;
-		}
-		while (!extras.empty())
-		{
-			eh = extras.top();
-			extras.pop();
-			cost = cur_h + 1 - eh;
-			if (cost > k)
-			{
-				break ;
-			}
-			k -= cost;
-			visible++;
-			cur_h += 1;
-		}
-		answers[tt] = visible;
-	}
-	for (int tt = 0; tt < t; tt++)
-	{
-		std::cout << answers[tt] << std::endl;
-	}
-	return (0);
+int main(){
+    int T;
+    cin>>T;
+    long long ans[10001];
+    for (int tt=0; tt<T; tt++){
+        int N;
+        long long K;
+        cin>>N>>K;
+        long long a[200001];
+        for (int i=0; i<N; i++){
+            cin>>a[i];
+        }
+        qs(a,0,N-1);
+        long long c=a[0]-1;
+        int vis=0;
+        priority_queue<long long> ex;
+        int i=0;
+        while (i<N){
+            long long h=a[i];
+            int f=0;
+            while (i<N&&a[i]==h){
+                f++;
+                i++;
+            }
+            long long g=h-c-1;
+            while (g>0&&!ex.empty()){
+                long long eh=ex.top();
+                ex.pop();
+                long long cs=c+1-eh;
+                if (cs>K){
+                    ex.push(eh);
+                    break;
+                }
+                K-=cs;
+                vis++;
+                g--;
+                c+=1;
+            }
+            vis+=1;
+            for (int j=1; j<f; j++){
+                ex.push(h);
+            }
+            c = h;
+        }
+        while (!ex.empty()){
+            long long eh=ex.top();
+            ex.pop();
+            long long cs=c+1-eh;
+            if (cs>K){
+                break;
+            }
+            K-=cs;
+            vis++;
+            c+=1;
+        }
+        ans[tt]=vis;
+    }
+    for (int tt=0; tt<T; tt++){
+        cout<<ans[tt]<<endl;
+    }
 }
+
+
+
+
+
+
+
+
+
+// #include <iostream>
+// #include <queue>
+
+// void	quick_sort(long long array[], int l, int r)
+// {
+// 	long long	pivot;
+// 	int			i, j;
+// 	long long	temp;
+
+// 	if (l >= r)
+// 		return ;
+// 	pivot = array[(l + r) / 2];
+// 	i = l, j = r;
+// 	while (i <= j)
+// 	{
+// 		while (array[i] < pivot)
+// 			i++;
+// 		while (array[j] > pivot)
+// 			j--;
+// 		if (i <= j)
+// 		{
+// 			temp = array[i];
+// 			array[i] = array[j];
+// 			array[j] = temp;
+// 			i++;
+// 			j--;
+// 		}
+// 	}
+// 	quick_sort(array, l, j);
+// 	quick_sort(array, i, r);
+// }
+
+// int	main(void)
+// {
+// 	int			t;
+// 	long long	answers[10001];
+// 	int n;
+// 	long long k;
+// 	long long a[200001];
+// 	long long	cur_h;
+// 	int			visible;
+// 	int			i;
+// 	long long	h;
+// 	int			freq;
+// 	long long	gap;
+// 	long long	eh;
+// 	long long	cost;
+// 	long long	eh;
+// 	long long	cost;
+
+// 	std::cin >> t;
+// 	for (int tt = 0; tt < t; tt++)
+// 	{
+// 		std::cin >> n >> k;
+// 		for (int i = 0; i < n; i++)
+// 		{
+// 			std::cin >> a[i];
+// 		}
+// 		quick_sort(a, 0, n - 1);
+// 		cur_h = a[0] - 1;
+// 		visible = 0;
+// 		std::priority_queue<long long> extras;
+// 		i = 0;
+// 		while (i < n)
+// 		{
+// 			h = a[i];
+// 			freq = 0;
+// 			while (i < n && a[i] == h)
+// 			{
+// 				freq++;
+// 				i++;
+// 			}
+// 			gap = h - cur_h - 1;
+// 			while (gap > 0 && !extras.empty())
+// 			{
+// 				eh = extras.top();
+// 				extras.pop();
+// 				cost = cur_h + 1 - eh;
+// 				if (cost > k)
+// 				{
+// 					extras.push(eh);
+// 					break ;
+// 				}
+// 				k -= cost;
+// 				visible++;
+// 				gap--;
+// 				cur_h += 1;
+// 			}
+// 			visible += 1;
+// 			for (int j = 1; j < freq; j++)
+// 			{
+// 				extras.push(h);
+// 			}
+// 			cur_h = h;
+// 		}
+// 		while (!extras.empty())
+// 		{
+// 			eh = extras.top();
+// 			extras.pop();
+// 			cost = cur_h + 1 - eh;
+// 			if (cost > k)
+// 			{
+// 				break ;
+// 			}
+// 			k -= cost;
+// 			visible++;
+// 			cur_h += 1;
+// 		}
+// 		answers[tt] = visible;
+// 	}
+// 	for (int tt = 0; tt < t; tt++)
+// 	{
+// 		std::cout << answers[tt] << std::endl;
+// 	}
+// 	return (0);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // #include <iostream>
 // #include <queue>
